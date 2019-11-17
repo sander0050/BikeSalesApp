@@ -1,0 +1,60 @@
+﻿@model BikeSalesApp.Models.Order
+
+    <div>
+        <h4>Order</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Customers.FirstName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Customers.FirstName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Staffs.FirstName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Staffs.FirstName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OrderStatus)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OrderDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.RequiredDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.RequiredDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ShippedDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ShippedDate)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

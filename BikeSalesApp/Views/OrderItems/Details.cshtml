@@ -1,0 +1,52 @@
+﻿@model BikeSalesApp.Models.OrderItem
+
+    <div>
+        <h4>OrderItem</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Orders.OrderStatus)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Orders.OrderStatus)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Products.ProductName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Products.ProductName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ListPrice)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ListPrice)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Discount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Discount)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.OrderItemId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

@@ -181,22 +181,112 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BrandsController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderItemsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\StaffsController.cs" />
+    <Compile Include="Controllers\StocksController.cs" />
+    <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911161302188_AddCustomer.cs" />
+    <Compile Include="Migrations\201911161302188_AddCustomer.Designer.cs">
+      <DependentUpon>201911161302188_AddCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161303361_AddBrand.cs" />
+    <Compile Include="Migrations\201911161303361_AddBrand.Designer.cs">
+      <DependentUpon>201911161303361_AddBrand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161304194_AddCategories.cs" />
+    <Compile Include="Migrations\201911161304194_AddCategories.Designer.cs">
+      <DependentUpon>201911161304194_AddCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161305179_AddProduct.cs" />
+    <Compile Include="Migrations\201911161305179_AddProduct.Designer.cs">
+      <DependentUpon>201911161305179_AddProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161306052_AddStore.cs" />
+    <Compile Include="Migrations\201911161306052_AddStore.Designer.cs">
+      <DependentUpon>201911161306052_AddStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161309474_AddProductFKToCategory.cs" />
+    <Compile Include="Migrations\201911161309474_AddProductFKToCategory.Designer.cs">
+      <DependentUpon>201911161309474_AddProductFKToCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161314102_AddProductFKToBrand.cs" />
+    <Compile Include="Migrations\201911161314102_AddProductFKToBrand.Designer.cs">
+      <DependentUpon>201911161314102_AddProductFKToBrand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161320383_AddStock.cs" />
+    <Compile Include="Migrations\201911161320383_AddStock.Designer.cs">
+      <DependentUpon>201911161320383_AddStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161328062_AddStaff.cs" />
+    <Compile Include="Migrations\201911161328062_AddStaff.Designer.cs">
+      <DependentUpon>201911161328062_AddStaff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161329280_AddStaffFKToStaff.cs" />
+    <Compile Include="Migrations\201911161329280_AddStaffFKToStaff.Designer.cs">
+      <DependentUpon>201911161329280_AddStaffFKToStaff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161340470_AddOrder.cs" />
+    <Compile Include="Migrations\201911161340470_AddOrder.Designer.cs">
+      <DependentUpon>201911161340470_AddOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161343211_AddOrderFKToCustomerStoreStaff.cs" />
+    <Compile Include="Migrations\201911161343211_AddOrderFKToCustomerStoreStaff.Designer.cs">
+      <DependentUpon>201911161343211_AddOrderFKToCustomerStoreStaff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161346289_AddOrderFKToStaff.cs" />
+    <Compile Include="Migrations\201911161346289_AddOrderFKToStaff.Designer.cs">
+      <DependentUpon>201911161346289_AddOrderFKToStaff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161347064_AddOrderFKToStore.cs" />
+    <Compile Include="Migrations\201911161347064_AddOrderFKToStore.Designer.cs">
+      <DependentUpon>201911161347064_AddOrderFKToStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161351485_addOrderItem.cs" />
+    <Compile Include="Migrations\201911161351485_addOrderItem.Designer.cs">
+      <DependentUpon>201911161351485_addOrderItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161353304_addOrderItemFKToProduct.cs" />
+    <Compile Include="Migrations\201911161353304_addOrderItemFKToProduct.Designer.cs">
+      <DependentUpon>201911161353304_addOrderItemFKToProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161354434_addOrderItemFKToOrder.cs" />
+    <Compile Include="Migrations\201911161354434_addOrderItemFKToOrder.Designer.cs">
+      <DependentUpon>201911161354434_addOrderItemFKToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Brand.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Staff.cs" />
+    <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\Store.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\OrderFormViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\slate-bootstrap.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -248,6 +338,53 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\Partial\_NavBarPartial.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Stocks\Create.cshtml" />
+    <Content Include="Views\Stocks\Delete.cshtml" />
+    <Content Include="Views\Stocks\Details.cshtml" />
+    <Content Include="Views\Stocks\Edit.cshtml" />
+    <Content Include="Views\Stocks\Index.cshtml" />
+    <Content Include="Views\Brands\Create.cshtml" />
+    <Content Include="Views\Brands\Delete.cshtml" />
+    <Content Include="Views\Brands\Details.cshtml" />
+    <Content Include="Views\Brands\Edit.cshtml" />
+    <Content Include="Views\Brands\Index.cshtml" />
+    <Content Include="Views\Staffs\Create.cshtml" />
+    <Content Include="Views\Staffs\Delete.cshtml" />
+    <Content Include="Views\Staffs\Details.cshtml" />
+    <Content Include="Views\Staffs\Edit.cshtml" />
+    <Content Include="Views\Staffs\Index.cshtml" />
+    <Content Include="Views\Stores\Create.cshtml" />
+    <Content Include="Views\Stores\Delete.cshtml" />
+    <Content Include="Views\Stores\Details.cshtml" />
+    <Content Include="Views\Stores\Edit.cshtml" />
+    <Content Include="Views\Stores\Index.cshtml" />
+    <Content Include="Views\OrderItems\Create.cshtml" />
+    <Content Include="Views\OrderItems\Delete.cshtml" />
+    <Content Include="Views\OrderItems\Details.cshtml" />
+    <Content Include="Views\OrderItems\Edit.cshtml" />
+    <Content Include="Views\OrderItems\Index.cshtml" />
+    <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\Orders\Delete.cshtml" />
+    <Content Include="Views\Orders\Details.cshtml" />
+    <Content Include="Views\Orders\Edit.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\OrderForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -264,6 +401,59 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201911161302188_AddCustomer.resx">
+      <DependentUpon>201911161302188_AddCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161303361_AddBrand.resx">
+      <DependentUpon>201911161303361_AddBrand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161304194_AddCategories.resx">
+      <DependentUpon>201911161304194_AddCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161305179_AddProduct.resx">
+      <DependentUpon>201911161305179_AddProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161306052_AddStore.resx">
+      <DependentUpon>201911161306052_AddStore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161309474_AddProductFKToCategory.resx">
+      <DependentUpon>201911161309474_AddProductFKToCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161314102_AddProductFKToBrand.resx">
+      <DependentUpon>201911161314102_AddProductFKToBrand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161320383_AddStock.resx">
+      <DependentUpon>201911161320383_AddStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161328062_AddStaff.resx">
+      <DependentUpon>201911161328062_AddStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161329280_AddStaffFKToStaff.resx">
+      <DependentUpon>201911161329280_AddStaffFKToStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161340470_AddOrder.resx">
+      <DependentUpon>201911161340470_AddOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161343211_AddOrderFKToCustomerStoreStaff.resx">
+      <DependentUpon>201911161343211_AddOrderFKToCustomerStoreStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161346289_AddOrderFKToStaff.resx">
+      <DependentUpon>201911161346289_AddOrderFKToStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161347064_AddOrderFKToStore.resx">
+      <DependentUpon>201911161347064_AddOrderFKToStore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161351485_addOrderItem.resx">
+      <DependentUpon>201911161351485_addOrderItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161353304_addOrderItemFKToProduct.resx">
+      <DependentUpon>201911161353304_addOrderItemFKToProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161354434_addOrderItemFKToOrder.resx">
+      <DependentUpon>201911161354434_addOrderItemFKToOrder.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

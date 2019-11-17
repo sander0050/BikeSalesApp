@@ -1,0 +1,29 @@
+﻿@model BikeSalesApp.Models.Order
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+@using (Html.BeginForm("Create", "Orders"))
+{
+    @Html.ValidationSummary(true, "Please fix the following errors.")
+    <div class="form-group">
+        @Html.LabelFor(m => m.CustomerId)
+        @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.StaffId)
+        @Html.DropDownList("StaffId", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.StaffId, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.HiddenFor(m => m.OrderId)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
