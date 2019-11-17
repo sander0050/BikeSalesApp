@@ -14,6 +14,7 @@ namespace BikeSalesApp.Controllers
     public class OrdersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private OrderFormViewModel ViewModel = new OrderFormViewModel();
 
         // GET: Orders
         public ActionResult Index()
@@ -40,33 +41,58 @@ namespace BikeSalesApp.Controllers
         // GET: Orders/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
-            ViewBag.StaffId = new SelectList(db.Staffs, "StaffId", "FirstName");
 
+            ViewModel.Customers = db.Customers.ToList();
+            ViewModel.Staffs = db.Staffs.ToList();
 
-            return View();
+            return View("OrderForm", ViewModel);
         }
 
         // POST: Orders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        public ActionResult AddOrderItem()
+        {
+            ViewBag.OrderId = ViewModel.Order.OrderId;
+            ViewBag.ProductId = new SelectList(db.Products, "ProductId", "ProductName");
+            return View("AddOrderItem");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderId,OrderStatus,OrderDate,RequiredDate,ShippedDate,CustomerId,StaffId")] Order order)
+        public ActionResult AddOrderItem(OrderItem Item)
         {
-            if (ModelState.IsValid)
+            ViewModel.OrderItem.Add(Item);
+
+            ViewModel.Customers = db.Customers.ToList();
+            ViewModel.Staffs = db.Staffs.ToList();
+
+            return View("OrderForm", ViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(OrderFormViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                db.Orders.Add(order);
-                db.SaveChanges();
+                ViewModel.Customers = db.Customers.ToList();
+                ViewModel.Staffs = db.Staffs.ToList();
+                return View("OrderForm", ViewModel);
 
-                OrderFormViewModel ViewModel = new OrderFormViewModel(order);
-
-                return RedirectToAction("OrderForm",ViewModel);
             }
+            db.Orders.Add(model.Order);
+            db.SaveChanges();
 
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName", order.CustomerId);
-            ViewBag.StaffId = new SelectList(db.Staffs, "StaffId", "FirstName", order.StaffId);
-            return View(order);
+            foreach (var item in model.OrderItem)
+            {
+                item.OrderId = model.Order.OrderId;
+                db.OrderItems.Add(item);
+            }
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index");
         }
 
         // GET: Orders/Edit/5
@@ -81,8 +107,8 @@ namespace BikeSalesApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName", order.CustomerId);
-            ViewBag.StaffId = new SelectList(db.Staffs, "StaffId", "FirstName", order.StaffId);
+            ViewModel.Customers = db.Customers.ToList();
+            ViewModel.Staffs = db.Staffs.ToList();
             return View(order);
         }
 
@@ -99,8 +125,8 @@ namespace BikeSalesApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName", order.CustomerId);
-            ViewBag.StaffId = new SelectList(db.Staffs, "StaffId", "FirstName", order.StaffId);
+            ViewModel.Customers = db.Customers.ToList();
+            ViewModel.Staffs = db.Staffs.ToList();
             return View(order);
         }
 

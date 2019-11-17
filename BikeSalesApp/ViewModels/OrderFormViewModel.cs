@@ -9,7 +9,10 @@ namespace BikeSalesApp.ViewModels
     public class OrderFormViewModel
     {
         public Order Order { get; set; }
-        public OrderItem OrderItem { get; set; }
+        public List<OrderItem> OrderItem { get; set; }
+
+        public List<Customer> Customers { get; set; }
+        public List<Staff> Staffs { get; set; }
 
         public string Title
         {
@@ -25,15 +28,24 @@ namespace BikeSalesApp.ViewModels
             Order = new Order()
             {
                 OrderId = 0,
-                OrderDate = DateTime.Today,
+                OrderDate = DateTime.Now,
                 OrderStatus = "PENDING"
                 
             };
+
+            OrderItem = new List<OrderItem>();
         }
 
         public OrderFormViewModel(Order order)
         {
             this.Order = order;
+            this.OrderItem = new List<OrderItem>();
+        }
+
+        public OrderFormViewModel(Order order, List<OrderItem> orderItem)
+        {
+            this.Order = order;
+            this.OrderItem = orderItem;
         }
     }
 }

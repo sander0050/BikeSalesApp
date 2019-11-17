@@ -51,7 +51,7 @@ namespace BikeSalesApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderItemId,Quantity,ListPrice,Discount,ProductId,OrderId")] OrderItem orderItem)
+        public ActionResult Create(OrderItem orderItem)
         {
             if (ModelState.IsValid)
             {
