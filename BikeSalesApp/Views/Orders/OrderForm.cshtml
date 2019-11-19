@@ -6,67 +6,69 @@
 
 <h2>@Model.Title</h2>
 
-@using (Html.BeginForm("Save","Orders"))
+@using (Html.BeginForm("Save", "Orders"))
 {
     @Html.ValidationSummary(true, "Please fix the following errors.")
-<div class="form-group">
-    @Html.LabelFor(m => m.Order.CustomerId)
-    @Html.DropDownListFor(m => m.Order.CustomerId, new SelectList(Model.Customers, "CustomerId", "FirstName"), "", new { @class = "form-control" })
-    @Html.ValidationMessageFor(model => model.Order.CustomerId, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Order.CustomerId)
+        @Html.DropDownListFor(m => m.Order.CustomerId, new SelectList(Model.Customers, "CustomerId", "FirstName"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Order.CustomerId, "", new { @class = "text-danger" })
 
-</div>
+    </div>
 
-<div class="form-group">
-    @Html.LabelFor(model => model.Order.StaffId)
-    @Html.DropDownListFor(model => model.Order.StaffId, new SelectList(Model.Staffs, "StaffId", "FirstName"), "", new { @class = "form-control" })
-    @Html.ValidationMessageFor(model => model.Order.StaffId, "", new { @class = "text-danger" })
-</div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Order.StaffId)
+        @Html.DropDownListFor(model => model.Order.StaffId, new SelectList(Model.Staffs, "StaffId", "FirstName"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Order.StaffId, "", new { @class = "text-danger" })
+    </div>
 
     @Html.HiddenFor(m => m.Order.OrderId)
     @Html.AntiForgeryToken()
 
     <button type="submit" value="Save" class="btn btn-primary">Save</button>
-    
+
+
+    <p>
+        @Html.ActionLink("Add Product", "AddOrderItem")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Quantity")
+            </th>
+            <th>
+                @Html.Label("ListPrice")
+            </th>
+            <th>
+                @Html.Label("Discount")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.OrderItem)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ListPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderItemId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.OrderItemId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.OrderItemId })
+                </td>
+            </tr>
+        }
+
+    </table>
 }
 
-<p>
-    @Html.ActionLink("Add Product", "AddOrderItem")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Quantity")
-        </th>
-        <th>
-            @Html.Label("ListPrice")
-        </th>
-        <th>
-            @Html.Label("Discount")
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model.OrderItem)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ListPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.OrderItemId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.OrderItemId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.OrderItemId })
-            </td>
-        </tr>
-    }
-
-</table>
 
 
 

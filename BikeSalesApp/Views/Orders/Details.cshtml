@@ -1,60 +1,95 @@
-﻿@model BikeSalesApp.Models.Order
+﻿@model BikeSalesApp.ViewModels.OrderFormViewModel
 
-    <div>
-        <h4>Order</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Customers.FirstName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Customers.FirstName)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Staffs.FirstName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Staffs.FirstName)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.OrderStatus)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.OrderStatus)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.OrderDate)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.RequiredDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.RequiredDate)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.ShippedDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.ShippedDate)
-            </dd>
-    
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.Customers.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.Customers.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.Staffs.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.Staffs.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.OrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.OrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.RequiredDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.RequiredDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.ShippedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.ShippedDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back", "Index",null,new { @class = "btn btn-default" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Quantity")
+        </th>
+        <th>
+            @Html.Label("ListPrice")
+        </th>
+        <th>
+            @Html.Label("Discount")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.OrderItem)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ListPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.OrderItemId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.OrderItemId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.OrderItemId })
+            </td>
+        </tr>
+    }
+
+</table>

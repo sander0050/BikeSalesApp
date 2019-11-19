@@ -151,7 +151,7 @@ namespace BikeSalesApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.FirstName + model.LastName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -171,7 +171,7 @@ namespace BikeSalesApp.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+      
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

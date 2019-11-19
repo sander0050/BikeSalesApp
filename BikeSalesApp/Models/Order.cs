@@ -20,5 +20,6 @@ namespace BikeSalesApp.Models
         public Staff Staffs { get; set; }
 
 
+
     }
 }

@@ -1,38 +1,45 @@
 ﻿@model IEnumerable<BikeSalesApp.Models.Customer>
 
+<h1>Customers</h1>
+
+@if (User.IsInRole("BillingAgent"))
+{
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("New Customer", "Create",null,new { @class = "btn btn-success" })
     </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Street)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ZipCode)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -59,12 +66,23 @@
                 @Html.DisplayFor(modelItem => item.ZipCode)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.CustomerId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.CustomerId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.CustomerId })
+                @if (User.IsInRole("BillingAgent") || User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId }, new { @class = "glyphicon glyphicon-edit btn btn-info btn-xs" })
+                    @Html.Label(" | ")
+                    @Html.ActionLink("Details", "Details", new { id = item.CustomerId }, new { @class = "glyphicon glyphicon-th-list btn btn-success btn-xs" })
+                    @Html.Label(" | ")
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CustomerId }, new { @class = "glyphicon glyphicon-trash btn btn-danger btn-xs" })
+                }
+                else
+                {
+                    @Html.ActionLink("Details", "Details", new { id = item.CustomerId }, new { @class = "glyphicon glyphicon-th-list btn btn-success btn-xs" })
+                }
+
+
             </td>
         </tr>
     }
-    
-    </table>
+
+</table>
 

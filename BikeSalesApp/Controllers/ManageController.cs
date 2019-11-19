@@ -7,14 +7,72 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BikeSalesApp.Models;
+using System.Net;
 
 namespace BikeSalesApp.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private ApplicationDbContext context = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        public ActionResult UsersWithRoles()
+        {
+            var usersWithRoles = (from user in context.Users
+                                  select new
+                                  {
+                                      UserId = user.Id,
+                                      UserName = user.UserName,
+                                      FirstName = user.FirstName,
+                                      LastName = user.LastName,
+                                      Email = user.Email,
+                                      RoleNames = (from userRole in user.Roles
+                                                   join role in context.Roles on userRole.RoleId
+                                                   equals role.Id
+                                                   select role.Name).ToList()
+                                  }).ToList().Select(p => new UsersApp()
+
+                                  {
+                                      UserId = p.UserId,
+                                      UserName = p.UserName,
+                                      FirstName = p.FirstName,
+                                      LastName = p.LastName,
+                                      Email = p.Email,
+                                      Role = string.Join(",", p.RoleNames)
+                                  });
+
+
+            return View(usersWithRoles);
+        }
+
+        public ActionResult EditUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ApplicationUser user = context.Users.SingleOrDefault(c=>c.Id == id);
+
+            if (user == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            RegisterViewModel model = new RegisterViewModel() {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+            };
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+            return View(model);
+        }
 
         public ManageController()
         {

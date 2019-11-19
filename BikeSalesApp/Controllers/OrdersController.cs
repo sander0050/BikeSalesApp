@@ -30,12 +30,25 @@ namespace BikeSalesApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+
             Order order = db.Orders.Find(id);
+            List<OrderItem> orderItem = db.OrderItems.ToList().FindAll(c => c.OrderId == id);
+
+
             if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+
+            ViewModel = new OrderFormViewModel()
+            {
+                Order = order,
+                OrderItem = orderItem,
+                Customers = db.Customers.ToList(),
+                Staffs = db.Staffs.ToList()
+            };
+            return View(ViewModel);
         }
 
         // GET: Orders/Create
@@ -58,7 +71,7 @@ namespace BikeSalesApp.Controllers
             return View("AddOrderItem");
         }
 
-        [HttpPost]
+   
         [ValidateAntiForgeryToken]
         public ActionResult AddOrderItem(OrderItem Item)
         {
@@ -81,8 +94,33 @@ namespace BikeSalesApp.Controllers
                 return View("OrderForm", ViewModel);
 
             }
-            db.Orders.Add(model.Order);
-            db.SaveChanges();
+
+            if (model.Order.OrderId == 0)
+            {
+
+                db.Orders.Add(model.Order);
+                db.SaveChanges();
+
+
+            }
+            else {
+                var orderInDb = db.Orders.Single(m => m.OrderId == model.Order.OrderId);
+                orderInDb.OrderStatus = model.Order.OrderStatus;
+                orderInDb.RequiredDate = model.Order.RequiredDate;
+                orderInDb.ShippedDate = model.Order.ShippedDate;
+                orderInDb.CustomerId = model.Order.CustomerId;
+                orderInDb.StaffId = model.Order.StaffId;
+
+                var orderItemInDb = db.OrderItems.Single(m => m.OrderId == model.Order.OrderId);
+
+                List<OrderItem> orderItem = db.OrderItems.ToList().FindAll(c => c.OrderId == model.Order.OrderId);
+
+                foreach (var item in orderItem)
+                {
+                    db.OrderItems.Remove(item);
+                }
+                db.SaveChanges();
+            }
 
             foreach (var item in model.OrderItem)
             {
@@ -90,6 +128,7 @@ namespace BikeSalesApp.Controllers
                 db.OrderItems.Add(item);
             }
             db.SaveChanges();
+
 
 
             return RedirectToAction("Index");
@@ -102,14 +141,27 @@ namespace BikeSalesApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+
             Order order = db.Orders.Find(id);
+            List<OrderItem> orderItem = db.OrderItems.ToList().FindAll(c => c.OrderId == id);
+            
+
             if (order == null)
             {
                 return HttpNotFound();
             }
-            ViewModel.Customers = db.Customers.ToList();
-            ViewModel.Staffs = db.Staffs.ToList();
-            return View(order);
+
+            ViewModel = new OrderFormViewModel()
+            {
+                Order = order,
+                OrderItem = orderItem,
+                Customers = db.Customers.ToList(),
+                Staffs = db.Staffs.ToList()
+            };
+
+            return View("OrderForm", ViewModel);
+
         }
 
         // POST: Orders/Edit/5
@@ -117,7 +169,7 @@ namespace BikeSalesApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderId,OrderStatus,OrderDate,RequiredDate,ShippedDate,CustomerId,StaffId")] Order order)
+        public ActionResult Edit(Order order)
         {
             if (ModelState.IsValid)
             {

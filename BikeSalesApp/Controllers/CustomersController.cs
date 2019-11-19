@@ -6,7 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using BikeSalesApp.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BikeSalesApp.Controllers
 {
@@ -17,6 +20,29 @@ namespace BikeSalesApp.Controllers
         // GET: Customers
         public ActionResult Index()
         {
+            /*if (User.Identity.IsAuthenticated) {
+                var actualUser = User.Identity.GetUserId();
+                var roleManager = new RoleManager<IdentityRole>
+                    (new RoleStore<IdentityRole>(db));
+
+                //var resultado = roleManager.Create(new IdentityRole("SellerAgent"));
+
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+                var resultado = userManager.AddToRole(actualUser, "SellerAgent");
+                resultado = userManager.AddToRole(actualUser, "BillingAgent");
+                resultado = userManager.AddToRole(actualUser, "Admin");
+            }*/
+
+
+
+
+
+
+
+
+
+
             return View(db.Customers.ToList());
         }
 
@@ -36,6 +62,7 @@ namespace BikeSalesApp.Controllers
         }
 
         // GET: Customers/Create
+        [Authorize(Roles = "SellerAgent,Admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,7 +73,8 @@ namespace BikeSalesApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CustomerId,FirstName,LastName,Phone,Email,Street,City,State,ZipCode")] Customer customer)
+        [Authorize(Roles = "SellerAgent,Admin")]//SellerAgent BillingAgent Admin
+        public ActionResult Create(Customer customer)
         {
             if (ModelState.IsValid)
             {
