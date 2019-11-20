@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,7 @@ namespace BikeSalesApp.Models
         public string Email { get; set; }
         public bool Active { get; set; }
 
+        [Display(Name = "Store")]
         public int StoreId { get; set; }
         public Store Stores { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BikeSalesApp.Models
@@ -89,7 +90,11 @@ namespace BikeSalesApp.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        public List<RolesSelected> Roles { get; set; }
+
     }
+
+   
 
     public class ResetPasswordViewModel
     {

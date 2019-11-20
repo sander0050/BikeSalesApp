@@ -9,12 +9,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BikeSalesApp.Models;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BikeSalesApp.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext context = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -22,7 +25,7 @@ namespace BikeSalesApp.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +37,9 @@ namespace BikeSalesApp.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -120,7 +123,7 @@ namespace BikeSalesApp.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -139,7 +142,25 @@ namespace BikeSalesApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var roleManager = new RoleManager<IdentityRole>
+          (new RoleStore<IdentityRole>(context));
+
+            List<RolesSelected> roles = new List<RolesSelected>();
+
+            foreach (var item in roleManager.Roles.ToList())
+            {
+                roles.Add(new RolesSelected()
+                {
+                    Role = item,
+                    IsSelected = false
+                });
+            }
+
+            RegisterViewModel register = new RegisterViewModel()
+            {
+                Roles = roles
+            };
+            return View(register);
         }
 
         //
@@ -151,27 +172,41 @@ namespace BikeSalesApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var roleManager = new RoleManager<IdentityRole>
+                    (new RoleStore<IdentityRole>(context));
+                
                 var user = new ApplicationUser { UserName = model.FirstName + model.LastName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+              
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    foreach (var roleModel in model.Roles)
+                    {
+                        if (roleModel.IsSelected)
+                        {
+                            string role = roleManager.FindById(roleModel.Role.Id).Name;
+                            result = UserManager.AddToRole(user.Id, role);
+                            if (!result.Succeeded)
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
+                    }
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("UsersWithRoles", "Manage");
+                    //return View("usersWithRoles","Manage", GetUsers());
+
                 }
+
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View("usersWithRoles", GetUsers());
         }
-      
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -403,6 +438,33 @@ namespace BikeSalesApp.Controllers
             return View();
         }
 
+        public IEnumerable<UsersApp> GetUsers()
+        {
+
+            return (from user in context.Users
+                    select new
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        RoleNames = (from userRole in user.Roles
+                                     join role in context.Roles on userRole.RoleId
+                                     equals role.Id
+                                     select role.Name).ToList()
+                    }).ToList().Select(p => new UsersApp()
+
+                    {
+                        UserId = p.UserId,
+                        UserName = p.UserName,
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        Email = p.Email,
+                        Role = string.Join(",", p.RoleNames)
+                    });
+
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -28,7 +28,7 @@ namespace BikeSalesApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.Staffs.Find(id);
+            Staff staff = db.Staffs.Include(s => s.Stores).SingleOrDefault(c=> c.StaffId ==id);
             if (staff == null)
             {
                 return HttpNotFound();

@@ -1,61 +1,53 @@
 ﻿@model IEnumerable<BikeSalesApp.Models.UsersApp>
 
-@{
-    ViewBag.Title = "Users With Roles";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<h1>Users</h1>
+<hr />
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="box-title">
-            <b>Users with Roles</b>
-        </h3>
-    </div>
-    <!-- /.box-header -->
-    <div class="panel-body">
-        <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
-            <thead>
-                <tr>
-                    <td><b>Username</b></td>
-                    <td><b>FirstName</b></td>
-                    <td><b>LastName</b></td>
-                    <td><b>Email</b></td>
-                    <td><b>Roles</b></td>
-                </tr>
-            </thead>
-            @foreach (var user in Model)
-            {
+<p>
+    @Html.ActionLink("New User", "Register","Account", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Roles)
+        </th>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
         <tr>
-            <td>@user.UserName</td>
-            <td>@user.FirstName</td>
-            <td>@user.LastName</td>
-            <td>@user.Email</td>
-            <td>@user.Role</td>
-            @Html.ActionLink("Edit", "EditUser", new { id = user.Id }, new { @class = "glyphicon glyphicon-edit btn btn-info btn-xs" })
-                     
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditUser", new { username = item.UserName }, new { @class = "glyphicon glyphicon-edit btn btn-info btn-xs" })
+
+            </td>
         </tr>
-            }
-        </table>
-    </div>
-
-    <div class="panel-footer">
-        <p class="box-title"><b>Total Users till @String.Format("{0 : dddd, MMMM d, yyyy}", DateTime.Now)  : </b><span class="label label-primary">@Model.Count()</span></p>
-    </div>
-</div>
-
-
-@section scripts{
-    <script>
-
-        $(function () {
-            $('#UsersWithRoles').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-        });
-    </script>
-}
+    }
+</table>

@@ -28,7 +28,7 @@ namespace BikeSalesApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = db.Products.Include(p => p.Brands).Include(p => p.Categories).SingleOrDefault(c => c.ProductId == id);
             if (product == null)
             {
                 return HttpNotFound();

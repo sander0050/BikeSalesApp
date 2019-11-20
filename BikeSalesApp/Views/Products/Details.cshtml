@@ -47,6 +47,14 @@
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }) |
-        @Html.ActionLink("Back to List", "Index")
+        @if (User.IsInRole("BillingAgent"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-info" })
+            @Html.Label(" | ")
+            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-warning" })
+        }
+        else
+        {
+            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-warning" })
+        }
     </p>

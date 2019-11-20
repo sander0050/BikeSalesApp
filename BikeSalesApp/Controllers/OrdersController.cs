@@ -64,7 +64,7 @@ namespace BikeSalesApp.Controllers
         // POST: Orders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        public ActionResult AddOrderItem()
+        public ActionResult GoOrderItemView()
         {
             ViewBag.OrderId = ViewModel.Order.OrderId;
             ViewBag.ProductId = new SelectList(db.Products, "ProductId", "ProductName");

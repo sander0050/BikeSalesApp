@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<BikeSalesApp.Models.Store>
-
+    <h1>Store</h1>
+    <hr />
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("New Store", "Create", null, new { @class = "btn btn-success" })
     </p>
     <table class="table">
         <tr>
@@ -53,9 +54,12 @@
                 @Html.DisplayFor(modelItem => item.ZipCode)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.StoreId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.StoreId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.StoreId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.StoreId }, new { @class = "glyphicon glyphicon-edit btn btn-info btn-xs" })
+                @Html.Label(" | ")
+                @Html.ActionLink("Details", "Details", new { id = item.StoreId }, new { @class = "glyphicon glyphicon-th-list btn btn-success btn-xs" })
+                @Html.Label(" | ")
+                @Html.ActionLink("Delete", "Delete", new { id = item.StoreId }, new { @class = "glyphicon glyphicon-trash btn btn-danger btn-xs" })
+
             </td>
         </tr>
     }

@@ -63,6 +63,6 @@
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.StoreId }) |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Edit", "Edit", new { id = Model.StoreId },new { @class = "btn btn-info" }) |
+        @Html.ActionLink("Back", "Index",null,new { @class = "btn btn-warning" })
     </p>

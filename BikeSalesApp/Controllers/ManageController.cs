@@ -8,6 +8,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BikeSalesApp.Models;
 using System.Net;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using BikeSalesApp.ViewModels;
 
 namespace BikeSalesApp.Controllers
 {
@@ -20,58 +23,129 @@ namespace BikeSalesApp.Controllers
 
         public ActionResult UsersWithRoles()
         {
-            var usersWithRoles = (from user in context.Users
-                                  select new
-                                  {
-                                      UserId = user.Id,
-                                      UserName = user.UserName,
-                                      FirstName = user.FirstName,
-                                      LastName = user.LastName,
-                                      Email = user.Email,
-                                      RoleNames = (from userRole in user.Roles
-                                                   join role in context.Roles on userRole.RoleId
-                                                   equals role.Id
-                                                   select role.Name).ToList()
-                                  }).ToList().Select(p => new UsersApp()
 
-                                  {
-                                      UserId = p.UserId,
-                                      UserName = p.UserName,
-                                      FirstName = p.FirstName,
-                                      LastName = p.LastName,
-                                      Email = p.Email,
-                                      Role = string.Join(",", p.RoleNames)
-                                  });
-
-
-            return View(usersWithRoles);
+            return View(GetUsers());
         }
 
-        public ActionResult EditUser(string id)
+        public IEnumerable<UsersApp> GetUsers() {
+            return (from user in context.Users
+                    select new
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        RoleNames = (from userRole in user.Roles
+                                     join role in context.Roles on userRole.RoleId
+                                     equals role.Id
+                                     select role.Name).ToList()
+                    }).ToList().Select(p => new UsersApp()
+
+                    {
+                        UserId = p.UserId,
+                        UserName = p.UserName,
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        Email = p.Email,
+                        Role = string.Join(",", p.RoleNames)
+                    });
+
+        }
+
+        public ActionResult EditUser(string username)
         {
-            if (id == null)
+            if (username == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ApplicationUser user = context.Users.SingleOrDefault(c=>c.Id == id);
+            ApplicationUser user = context.Users.SingleOrDefault(c=>c.UserName == username);
 
             if (user == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            RegisterViewModel model = new RegisterViewModel() {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var roleManager = new RoleManager<IdentityRole>
+          (new RoleStore<IdentityRole>(context));
+
+            List<RolesSelected> roles = new List<RolesSelected>();
+
+            foreach (var item in roleManager.Roles.ToList())
+            {
+                roles.Add(new RolesSelected()
+                {
+                    Role = item,
+                    IsSelected = userManager.IsInRole(user.Id,item.Name)
+                });
+            }
+
+            UserFormViewModel model = new UserFormViewModel() {
+                User = user,
+                Roles = roles
             };
 
             if (model == null)
             {
                 return HttpNotFound();
             }
+
+         
             return View(model);
+
+      
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUser(UserFormViewModel userModel ) {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var roleManager = new RoleManager<IdentityRole>
+           (new RoleStore<IdentityRole>(context));
+
+
+            if (userModel == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //ApplicationUser user = context.Users.Find(userModel.User.Id);
+            var user = userManager.FindById(userModel.User.Id);
+            user = context.Users.ToList().Find(c => c.Id == userModel.User.Id);
+
+            if (user == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+           
+            user.UserName = userModel.User.UserName;
+            user.Email = userModel.User.Email;
+            user.FirstName = userModel.User.FirstName;
+            user.LastName = userModel.User.LastName;          
+
+            foreach (var roleModel in userModel.Roles)
+            {
+                string role = roleManager.FindById(roleModel.Role.Id).Name;
+                if (roleModel.IsSelected)
+                {
+                    if (!userManager.IsInRole(user.Id, role))
+                    {
+                        UserManager.AddToRole(user.Id, role);
+                    }
+                }
+                else {
+                    if (userManager.IsInRole(user.Id, role))
+                    {
+                        UserManager.RemoveFromRole(user.Id, role);
+                    }
+                }
+            }
+
+            userManager.Update(user);
+
+            return View("usersWithRoles", GetUsers());
         }
 
         public ManageController()

@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<BikeSalesApp.Models.Customer>
 
 <h1>Customers</h1>
-
+<hr />
 @if (User.IsInRole("BillingAgent"))
 {
     <p>
-        @Html.ActionLink("New Customer", "Create",null,new { @class = "btn btn-success" })
+        @Html.ActionLink("New Customer", "Create", null, new { @class = "btn btn-success" })
     </p>
 }
 

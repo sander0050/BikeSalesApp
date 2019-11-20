@@ -286,6 +286,7 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\RolesSelected.cs" />
     <Compile Include="Models\Staff.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Store.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\OrderFormViewModel.cs" />
+    <Compile Include="ViewModels\UserFormViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
